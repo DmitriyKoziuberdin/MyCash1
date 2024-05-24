@@ -1,5 +1,8 @@
 using Microsoft.EntityFrameworkCore;
+using MyCash.ApplicationService.Interfaces;
+using MyCash.ApplicationService.Services;
 using MyCash.Domain;
+using MyCash.Infrastructure.Repositories;
 
 internal class Program
 {
@@ -8,7 +11,12 @@ internal class Program
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
-
+        builder.Services.AddScoped<IUserRepository, UserRepository>();
+        builder.Services.AddScoped<IUserService, UserService>();
+        builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+        builder.Services.AddScoped<IAccountService, AccountService>();
+        builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
+        builder.Services.AddScoped<ITransactionService, TransactionService>();
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
