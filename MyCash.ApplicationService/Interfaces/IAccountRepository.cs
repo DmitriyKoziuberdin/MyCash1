@@ -10,5 +10,6 @@ namespace MyCash.ApplicationService.Interfaces
         Task CreateAccount(Account account);
         Task UpdateAccount(Account account);
         Task<bool> AnyAccountById(int id);
+        Task AddTransaction(int accountId, int transactionId);
     }
 }
