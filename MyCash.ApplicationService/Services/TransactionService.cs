@@ -14,7 +14,7 @@ namespace MyCash.ApplicationService.Services
             _transactionRepository = transactionRepository;
         }
 
-        public async Task<List<Transaction>> GetAllTransactions()
+        public async Task<List<TransactionGetAllResponse>> GetAllTransactions()
         {
             return await _transactionRepository.GetAllTransactions();
         }

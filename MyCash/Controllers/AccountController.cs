@@ -19,7 +19,7 @@ namespace MyCash.Controllers
         }
 
         [HttpGet]
-        public async Task<List<Account>> GetAllAccount()
+        public async Task<List<AccountGetAllResponse>> GetAllAccount()
         {
             return await _accountService.GetAllAccount();
         }

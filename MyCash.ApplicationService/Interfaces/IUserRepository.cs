@@ -1,10 +1,11 @@
-﻿using MyCash.Domain.Entity;
+﻿using MyCash.ApplicationService.DTO.Response;
+using MyCash.Domain.Entity;
 
 namespace MyCash.ApplicationService.Interfaces
 {
     public interface IUserRepository
     {
-        Task<List<User>> GetAllUsers();
+        Task<List<UserGetAllResponse>> GetAllUsers();
         Task<User> GetUserById(int id);
         Task<int> DeleteUser(int id);
         Task CreateUser(User user);
@@ -12,5 +13,6 @@ namespace MyCash.ApplicationService.Interfaces
         Task<bool> AnyUserById(int id);
         Task<bool> AnyUserWithEmail(string userEmail);
         Task AddOrder(int userId, int accountId);
+        Task<User> GetUserByIdIncludingAccountsAndTransactions(int id);
     }
 }

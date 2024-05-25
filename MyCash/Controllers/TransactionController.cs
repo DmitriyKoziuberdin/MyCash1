@@ -18,7 +18,7 @@ namespace MyCash.Controllers
         }
 
         [HttpGet]
-        public async Task<List<Transaction>> GetAllTransactions()
+        public async Task<List<TransactionGetAllResponse>> GetAllTransactions()
         {
             return await _transactionService.GetAllTransactions();
         }

@@ -1,9 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MyCash.ApplicationService.DTO.Request;
 using MyCash.ApplicationService.DTO.Response;
 using MyCash.ApplicationService.Interfaces;
-using MyCash.Domain.Entity;
 
 namespace MyCash.Controllers
 {
@@ -19,7 +17,7 @@ namespace MyCash.Controllers
         }
 
         [HttpGet]
-        public async Task<List<User>> GetAllUser()
+        public async Task<List<UserGetAllResponse>> GetAllUser()
         {
             return await _userService.GetAllUsers();
         }

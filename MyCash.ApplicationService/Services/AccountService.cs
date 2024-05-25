@@ -16,7 +16,7 @@ namespace MyCash.ApplicationService.Services
             _transactionRepository = transactionRepository;
         }
 
-        public async Task<List<Account>> GetAllAccount()
+        public async Task<List<AccountGetAllResponse>> GetAllAccount()
         {
             return await _accountRepository.GetAllAccounts();
         }
@@ -30,10 +30,12 @@ namespace MyCash.ApplicationService.Services
             }
 
             var accountId = await _accountRepository.GetAccountById(id);
-            var accountResponse = new AccountResponse 
+            var amountTransactionForAccount = await _accountRepository.CalculateAmountTransactionForAccount(id);
+
+            var accountResponse = new AccountResponse
             {
                 AccountName = accountId.AccountName,
-                Balance = accountId.Balance,
+                Balance = amountTransactionForAccount,
                 AccountTransactions = accountId.AccountTransactions.Select(at => new AccountTransactionResponse
                 {
                     Id = at.TransactionId,
@@ -50,7 +52,7 @@ namespace MyCash.ApplicationService.Services
             await _accountRepository.CreateAccount(new Account
             {
                 AccountName = account.AccountName,
-                Balance = account.Balance
+                //Balance = account.Balance
             });
         }
 
@@ -66,7 +68,7 @@ namespace MyCash.ApplicationService.Services
             {
                 AccountId = accountId,
                 AccountName = account.AccountName,
-                Balance = account.Balance
+                //Balance = account.Balance
             };
 
             await _accountRepository.UpdateAccount(newAccount);
@@ -102,5 +104,35 @@ namespace MyCash.ApplicationService.Services
             }
             await _accountRepository.AddTransaction(accountId, transactionId);
         }
+
+
+        //public async Task<ClientDto> GetTotalOrderPrice(int id)
+        //{
+        //    var isExist = await _clientRepository.AnyClientById(id);
+        //    if (!isExist)
+        //    {
+        //        throw new InvalidOperationException();
+        //    }
+
+        //    var clientId = await _clientRepository.GetClientById(id);
+        //    var totalOrderPrice = await _clientRepository.CalculateTotalOrderPrice(id);
+
+        //    var clientResponse = new ClientDto
+        //    {
+        //        FirstName = clientId.FirstName,
+        //        LastName = clientId.LastName,
+        //        Email = clientId.Email,
+        //        PhoneNumber = clientId.PhoneNumber,
+        //        OrderHistories = clientId.OrderHistories.Select(oh => new OrderHistoryDto
+        //        {
+        //            Id = oh.OrderId,
+        //            OrderName = oh.Order.OrderName,
+        //            Price = oh.Order.Price
+        //        }).ToList(),
+        //        TotalPrice = totalOrderPrice
+        //    };
+
+        //    return clientResponse;
+        //}
     }
 }
