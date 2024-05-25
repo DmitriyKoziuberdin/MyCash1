@@ -8,10 +8,12 @@ namespace MyCash.ApplicationService.Services
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IAccountRepository _accountRepository;
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository, IAccountRepository accountRepository)
         {
             _userRepository = userRepository;
+            _accountRepository = accountRepository;
         }
 
         public async Task<List<User>> GetAllUsers()
@@ -100,6 +102,24 @@ namespace MyCash.ApplicationService.Services
                 throw new InvalidOperationException("Id not found");
             }
             await _userRepository.DeleteUser(id);
+        }
+
+        public async Task AddAccount(int userId, int accountId)
+        {
+            var isExistForUserId = await _userRepository.AnyUserById(userId);
+            if (!isExistForUserId)
+            {
+                throw new InvalidOperationException("UserId not found");
+            }
+
+            var isExistForAccountId = await _accountRepository.AnyAccountById(accountId);
+            if (!isExistForAccountId)
+            {
+                throw new InvalidOperationException("AccountId not found");
+            }
+
+            await _userRepository.AddOrder(userId, accountId);
+            
         }
     }
 }

@@ -60,5 +60,15 @@ namespace MyCash.Infrastructure.Repositories
         {
             return await _appDbContext.Users.AnyAsync(email => email.UserEmail == userEmail);
         }
+
+        public async Task AddOrder(int userId, int accountId)
+        {
+            _appDbContext.Set<UserAccount>().Add(new UserAccount
+            {
+                UserId = userId,
+                AccountId = accountId
+            });
+            await _appDbContext.SaveChangesAsync();
+        }
     }
 }

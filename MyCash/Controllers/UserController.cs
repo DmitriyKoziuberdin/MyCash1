@@ -50,12 +50,12 @@ namespace MyCash.Controllers
             return Ok();
         }
 
-        //[HttpPost("{clientId:int}/order/{orderId:int}")]
-        //public async Task<IActionResult> CreateClient([FromRoute] int clientId, [FromRoute] int orderId)
-        //{
-        //    await _clientService.AddOrder(clientId, orderId);
-        //    return Ok();
-        //}
+        [HttpPost("{userId:int}/account/{accountId:int}")]
+        public async Task<IActionResult> AddAccount([FromRoute] int userId, [FromRoute] int accountId)
+        {
+            await _userService.AddAccount(userId, accountId);
+            return Ok();
+        }
 
         //[HttpGet("{clientId:int}/totalOrderPrice")]
         //public async Task<ClientDto> GetTotalOrderPrice(int clientId)
