@@ -2,6 +2,7 @@
 using MyCash.ApplicationService.DTO.Request;
 using MyCash.ApplicationService.DTO.Response;
 using MyCash.ApplicationService.Interfaces;
+using MyCash.ApplicationService.Services;
 using MyCash.Domain.Entity;
 
 namespace MyCash.Controllers
@@ -46,6 +47,13 @@ namespace MyCash.Controllers
         public async Task<IActionResult> DeleteAccount([FromRoute] int accountId)
         {
             await _accountService.DeleteAccount(accountId);
+            return Ok();
+        }
+
+        [HttpPost("{accountId:int}/transaction/{transactionId:int}")]
+        public async Task<IActionResult> AddTransaction([FromRoute] int accountId, [FromRoute] int transactionId)
+        {
+            await _accountService.AddTransaction(accountId, transactionId);
             return Ok();
         }
     }

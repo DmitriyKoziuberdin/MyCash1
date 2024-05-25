@@ -8,10 +8,12 @@ namespace MyCash.ApplicationService.Services
     public class AccountService : IAccountService
     {
         private readonly IAccountRepository _accountRepository;
+        private readonly ITransactionRepository _transactionRepository;
 
-        public AccountService(IAccountRepository accountRepository)
+        public AccountService(IAccountRepository accountRepository, ITransactionRepository transactionRepository)
         {
             _accountRepository = accountRepository;
+            _transactionRepository = transactionRepository;
         }
 
         public async Task<List<Account>> GetAllAccount()
@@ -84,6 +86,21 @@ namespace MyCash.ApplicationService.Services
                 throw new InvalidOperationException("Not found id");
             }
             await _accountRepository.DeleteAccount(id);
+        }
+
+        public async Task AddTransaction(int accountId, int transactionId)
+        {
+            var isExistForAccountId = await _accountRepository.AnyAccountById(accountId);
+            if (!isExistForAccountId)
+            {
+                throw new InvalidOperationException("AccountId not found");
+            }
+            var isExistForTransactionId = await _transactionRepository.AnyTransactionById(transactionId);
+            if (!isExistForTransactionId)
+            {
+                throw new InvalidOperationException("TransactionId not found");
+            }
+            await _accountRepository.AddTransaction(accountId, transactionId);
         }
     }
 }

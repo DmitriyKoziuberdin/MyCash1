@@ -1,38 +1,55 @@
-﻿using MyCash.ApplicationService.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using MyCash.ApplicationService.Interfaces;
+using MyCash.Domain;
 using MyCash.Domain.Entity;
 
 namespace MyCash.Infrastructure.Repositories
 {
     public class TransactionRepository : ITransactionRepository
     {
-        public Task<List<Transaction>> GetAllTransactions()
+        private readonly AppDbContext _appDbContext;
+
+        public TransactionRepository(AppDbContext appDbContext)
         {
-            throw new NotImplementedException();
+            _appDbContext = appDbContext;
         }
 
-        public Task<Account> GetTransactionById(int id)
+        public async Task<List<Transaction>> GetAllTransactions()
         {
-            throw new NotImplementedException();
+            return await _appDbContext.Transactions.ToListAsync();
         }
 
-        public Task CreateTransaction(Transaction transaction)
+        public async Task<Transaction> GetTransactionById(int id)
         {
-            throw new NotImplementedException();
+            var transactionById = await _appDbContext.Transactions
+                .FirstOrDefaultAsync(transactionId => transactionId.TransactionId == id);
+            return transactionById;
         }
 
-        public Task UpdateTransaction(Transaction transaction)
+        public async Task CreateTransaction(Transaction transaction)
         {
-            throw new NotImplementedException();
+            await _appDbContext.Transactions.AddAsync(transaction);
+            await _appDbContext.SaveChangesAsync();
         }
 
-        public Task<int> DeleteTransaction(int id)
+        public async Task UpdateTransaction(Transaction transaction)
         {
-            throw new NotImplementedException();
+            _appDbContext.Transactions.Update(transaction);
+            await _appDbContext.SaveChangesAsync();
         }
 
-        public Task<bool> AnyAccountById(int id)
+        public async Task<int> DeleteTransaction(int id)
         {
-            throw new NotImplementedException();
+            var deletTransaction = await _appDbContext.Transactions
+                .Where(transactionId => transactionId.TransactionId == id)
+                .ExecuteDeleteAsync();
+            return deletTransaction;
+        }
+
+        public async Task<bool> AnyTransactionById(int id)
+        {
+            return await _appDbContext.Transactions
+                .AnyAsync(transactionId => transactionId.TransactionId == id);
         }
     }
 }
