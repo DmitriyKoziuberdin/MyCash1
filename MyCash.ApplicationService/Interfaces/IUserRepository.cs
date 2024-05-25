@@ -11,5 +11,6 @@ namespace MyCash.ApplicationService.Interfaces
         Task UpdateUser(User user);
         Task<bool> AnyUserById(int id);
         Task<bool> AnyUserWithEmail(string userEmail);
+        Task AddOrder(int userId, int accountId);
     }
 }
