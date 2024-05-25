@@ -1,10 +1,11 @@
-﻿using MyCash.Domain.Entity;
+﻿using MyCash.ApplicationService.DTO.Response;
+using MyCash.Domain.Entity;
 
 namespace MyCash.ApplicationService.Interfaces
 {
     public interface ITransactionRepository
     {
-        Task<List<Transaction>> GetAllTransactions();
+        Task<List<TransactionGetAllResponse>> GetAllTransactions();
         Task<Transaction> GetTransactionById(int id);
         Task<int> DeleteTransaction(int id);
         Task CreateTransaction(Transaction transaction);

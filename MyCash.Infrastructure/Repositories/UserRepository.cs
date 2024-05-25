@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MyCash.ApplicationService.DTO.Response;
 using MyCash.ApplicationService.Interfaces;
 using MyCash.Domain;
 using MyCash.Domain.Entity;
@@ -14,9 +15,16 @@ namespace MyCash.Infrastructure.Repositories
             _appDbContext = appDbContext;
         }
 
-        public async Task<List<User>> GetAllUsers()
+        public async Task<List<UserGetAllResponse>> GetAllUsers()
         {
-            return await _appDbContext.Users.ToListAsync();
+            return await _appDbContext.Users
+                .Select(user => new UserGetAllResponse
+                {
+                    UserName = user.UserName,
+                    UserEmail = user.UserEmail,
+                    NumberPhone = user.NumberPhone
+                })
+                .ToListAsync();
         }
 
         public async Task<User> GetUserById(int id)
@@ -69,6 +77,17 @@ namespace MyCash.Infrastructure.Repositories
                 AccountId = accountId
             });
             await _appDbContext.SaveChangesAsync();
+        }
+
+        public async Task<User> GetUserByIdIncludingAccountsAndTransactions(int id)
+        {
+           var userBudget = await _appDbContext.Users
+                .Include(u => u.UserAccounts)
+                    .ThenInclude(ua => ua.Account)
+                        .ThenInclude(a => a.AccountTransactions)
+                            .ThenInclude(at => at.Transaction)
+                .FirstOrDefaultAsync(u => u.UserId == id);
+            return userBudget;
         }
     }
 }

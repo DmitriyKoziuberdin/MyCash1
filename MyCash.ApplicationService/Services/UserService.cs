@@ -1,6 +1,7 @@
 ﻿using MyCash.ApplicationService.DTO.Request;
 using MyCash.ApplicationService.DTO.Response;
 using MyCash.ApplicationService.Interfaces;
+using MyCash.Domain;
 using MyCash.Domain.Entity;
 
 namespace MyCash.ApplicationService.Services
@@ -16,9 +17,15 @@ namespace MyCash.ApplicationService.Services
             _accountRepository = accountRepository;
         }
 
-        public async Task<List<User>> GetAllUsers()
+        public async Task<List<UserGetAllResponse>> GetAllUsers()
         {
+
             return await _userRepository.GetAllUsers();
+            //var usersResponse = new UserGetAllResponse
+            //{
+            //    UserName = usersResponse.UserName,
+            //}
+            //return await _userRepository.GetAllUsers();
         }
 
         public async Task<UserResponse> GetUserById(int id)
@@ -29,17 +36,22 @@ namespace MyCash.ApplicationService.Services
                 throw new InvalidOperationException("Id not found");
             }
 
-            var userId = await _userRepository.GetUserById(id);
+            var user = await _userRepository.GetUserByIdIncludingAccountsAndTransactions(id);
+
             var userResponse = new UserResponse
             {
-                UserName = userId.UserName,
-                UserEmail = userId.UserEmail,
-                NumberPhone = userId.NumberPhone,
-                UserAccounts = userId.UserAccounts.Select(ua => new UserAccountResponse
+                UserName = user.UserName,
+                UserEmail = user.UserEmail,
+                NumberPhone = user.NumberPhone,
+                UserAccounts = user.UserAccounts.Select(ua =>
                 {
-                    Id = ua.AccountId,
-                    AccountName = ua.Account.AccountName,
-                    Balance = ua.Account.Balance
+                    var balance = ua.Account.AccountTransactions.Sum(at => at.Transaction.Amount);
+                    return new UserAccountResponse
+                    {
+                        Id = ua.AccountId,
+                        AccountName = ua.Account.AccountName,
+                        Balance = balance
+                    };
                 }).ToList()
             };
 

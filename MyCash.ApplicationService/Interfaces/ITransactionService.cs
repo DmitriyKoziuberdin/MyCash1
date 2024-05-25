@@ -6,7 +6,7 @@ namespace MyCash.ApplicationService.Interfaces
 {
     public interface ITransactionService
     {
-        public Task<List<Transaction>> GetAllTransactions();
+        public Task<List<TransactionGetAllResponse>> GetAllTransactions();
         public Task<TransactionResponse> GetTransactionById(int id);
         public Task CreateTransaction(TransactionRequest transaction);
         public Task<TransactionResponse> UpdateTransaction(int transactionId, TransactionRequest transaction);

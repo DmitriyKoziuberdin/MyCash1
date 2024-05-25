@@ -6,7 +6,7 @@ namespace MyCash.ApplicationService.Interfaces
 {
     public interface IAccountService
     {
-        public Task<List<Account>> GetAllAccount();
+        public Task<List<AccountGetAllResponse>> GetAllAccount();
         public Task<AccountResponse> GetAccountById(int id);
         public Task CreateAccount(AccountRequest account);
         public Task<AccountResponse> UpdateAccount(int accountId, AccountRequest account);

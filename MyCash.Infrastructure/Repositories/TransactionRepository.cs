@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MyCash.ApplicationService.DTO.Response;
 using MyCash.ApplicationService.Interfaces;
 using MyCash.Domain;
 using MyCash.Domain.Entity;
@@ -14,9 +15,17 @@ namespace MyCash.Infrastructure.Repositories
             _appDbContext = appDbContext;
         }
 
-        public async Task<List<Transaction>> GetAllTransactions()
+        public async Task<List<TransactionGetAllResponse>> GetAllTransactions()
         {
-            return await _appDbContext.Transactions.ToListAsync();
+            return await _appDbContext.Transactions
+                 .Select(transaction => new TransactionGetAllResponse
+                 {
+                     TransactionId = transaction.TransactionId,
+                     CategoryTransaction = transaction.CategoryTransaction,
+                     CategoryTypeTransaction = transaction.CategoryTypeTransaction,
+                     Amount = transaction.Amount
+                 })
+                 .ToListAsync();
         }
 
         public async Task<Transaction> GetTransactionById(int id)

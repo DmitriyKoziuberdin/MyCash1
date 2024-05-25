@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MyCash.ApplicationService.DTO.Response;
 using MyCash.ApplicationService.Interfaces;
 using MyCash.Domain;
 using MyCash.Domain.Entity;
@@ -14,9 +15,16 @@ namespace MyCash.Infrastructure.Repositories
             _appDbContext = appDbContext;
         }
 
-        public async Task<List<Account>> GetAllAccounts()
+        public async Task<List<AccountGetAllResponse>> GetAllAccounts()
         {
-            return await _appDbContext.Accounts.ToListAsync();
+            return await _appDbContext.Accounts
+                 .Select(account => new AccountGetAllResponse
+                 {
+                     AccountId = account.AccountId,
+                     AccountName = account.AccountName,
+                     //Balance = account.Balance
+                 })
+                 .ToListAsync();
         }
 
         public async Task<Account> GetAccountById(int id)
@@ -51,7 +59,8 @@ namespace MyCash.Infrastructure.Repositories
 
         public async Task<bool> AnyAccountById(int id)
         {
-            return await _appDbContext.Accounts.AnyAsync(accountId => accountId.AccountId == id);
+            return await _appDbContext.Accounts
+                .AnyAsync(accountId => accountId.AccountId == id);
         }
 
         public async Task AddTransaction(int accountId, int transactionId)
@@ -62,6 +71,18 @@ namespace MyCash.Infrastructure.Repositories
                 TransactionId = transactionId
             });
             await _appDbContext.SaveChangesAsync();
+        }
+
+
+        public async Task<decimal> CalculateAmountTransactionForAccount(int accountId)
+        {
+            var account = await _appDbContext.Accounts
+                .Include(accountTransaction => accountTransaction.AccountTransactions)
+                .ThenInclude(transaction => transaction.Transaction)
+                .FirstAsync(id => id.AccountId == accountId);
+
+            decimal totalBudgetOfAccount = account.AccountTransactions.Sum(accountTransaction => accountTransaction.Transaction.Amount);
+            return totalBudgetOfAccount;
         }
     }
 }
