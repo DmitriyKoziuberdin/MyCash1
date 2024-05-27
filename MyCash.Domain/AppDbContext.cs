@@ -64,6 +64,38 @@ namespace MyCash.Domain
                     x.TransactionId
                 });
         }
+
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
+        {
+            UpdateStatistics();
+            return base.SaveChangesAsync(cancellationToken);
+        }
+
+        public override int SaveChanges()
+        {
+            return base.SaveChanges();
+        }
+
+        private void UpdateStatistics()
+        {
+            var update = ChangeTracker.Entries().Where(x => x.State == EntityState.Modified);
+            foreach (var entityEntry in update)
+            {
+                if (entityEntry.Entity is BaseEntity baseEntity)
+                {
+                    baseEntity.UpdatedAt = DateTime.UtcNow;
+                }
+            }
+
+            var create = ChangeTracker.Entries().Where(x => x.State == EntityState.Added);
+            foreach (var entityEntry in create)
+            {
+                if (entityEntry.Entity is BaseEntity baseEntity)
+                {
+                    baseEntity.CreatedAt = DateTime.UtcNow;
+                }
+            }
+        }
     }
 }
 

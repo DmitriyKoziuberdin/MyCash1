@@ -1,6 +1,6 @@
 ﻿namespace MyCash.Domain.Entity
 {
-    public class UserAccount
+    public class UserAccount : BaseEntity
     {
         public int UserId { get; set; }
         public User? User { get; set; }

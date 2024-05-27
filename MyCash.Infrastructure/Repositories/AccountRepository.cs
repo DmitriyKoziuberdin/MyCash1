@@ -22,6 +22,8 @@ namespace MyCash.Infrastructure.Repositories
                  {
                      AccountId = account.AccountId,
                      AccountName = account.AccountName,
+                     CreatedAt = account.CreatedAt,
+                     UpdatedAt = account.UpdatedAt
                      //Balance = account.Balance
                  })
                  .ToListAsync();
