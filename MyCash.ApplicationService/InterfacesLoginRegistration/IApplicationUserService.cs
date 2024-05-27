@@ -2,7 +2,7 @@
 using MyCash.Domain.Entity;
 using static MyCash.ApplicationService.DTO.Response.ServiceResponse;
 
-namespace MyCash.ApplicationService.Interfaces
+namespace MyCash.ApplicationService.InterfacesLoginRegistration
 {
     public interface IApplicationUserService
     {

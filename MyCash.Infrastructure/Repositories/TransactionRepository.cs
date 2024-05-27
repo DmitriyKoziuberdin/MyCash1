@@ -60,5 +60,12 @@ namespace MyCash.Infrastructure.Repositories
             return await _appDbContext.Transactions
                 .AnyAsync(transactionId => transactionId.TransactionId == id);
         }
+
+
+        public async Task<bool> AnyTransactionByCategory(string categoryTransaction)
+        {
+            return await _appDbContext.Transactions
+                .AnyAsync(ct => ct.CategoryTransaction == categoryTransaction);
+        }
     }
 }

@@ -53,5 +53,10 @@ namespace MyCash.Infrastructure.CachedRpositories
             _memoryCache.Remove(_cacheKey);
             await _transactionRepository.UpdateTransaction(transaction);
         }
+
+        public async Task<bool> AnyTransactionByCategory(string categoryTransaction)
+        {
+            return await _transactionRepository.AnyTransactionByCategory(categoryTransaction);
+        }
     }
 }

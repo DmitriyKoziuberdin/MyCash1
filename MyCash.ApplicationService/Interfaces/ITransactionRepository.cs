@@ -11,5 +11,6 @@ namespace MyCash.ApplicationService.Interfaces
         Task CreateTransaction(Transaction transaction);
         Task UpdateTransaction(Transaction transaction);
         Task<bool> AnyTransactionById(int id);
+        Task<bool> AnyTransactionByCategory(string categoryTransaction);
     }
 }
