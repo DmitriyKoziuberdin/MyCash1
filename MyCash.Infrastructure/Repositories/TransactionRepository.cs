@@ -23,7 +23,9 @@ namespace MyCash.Infrastructure.Repositories
                      TransactionId = transaction.TransactionId,
                      CategoryTransaction = transaction.CategoryTransaction,
                      CategoryTypeTransaction = transaction.CategoryTypeTransaction,
-                     Amount = transaction.Amount
+                     Amount = transaction.Amount,
+                     CreatedAt = transaction.CreatedAt,
+                     UpdatedAt = transaction.UpdatedAt
                  })
                  .ToListAsync();
         }

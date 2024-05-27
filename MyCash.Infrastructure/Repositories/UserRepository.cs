@@ -21,9 +21,12 @@ namespace MyCash.Infrastructure.Repositories
             return await _appDbContext.Users
                 .Select(user => new UserGetAllResponse
                 {
+                    UserId = user.UserId,
                     UserName = user.UserName,
                     UserEmail = user.UserEmail,
-                    NumberPhone = user.NumberPhone
+                    NumberPhone = user.NumberPhone,
+                    CreatedAt = user.CreatedAt,
+                    UpdatedAt = user.UpdatedAt
                 })
                 .ToListAsync();
         }

@@ -2,7 +2,7 @@
 
 namespace MyCash.Domain.Entity
 {
-    public class User 
+    public class User : BaseEntity
     {
         public int UserId { get; set; }
         public string UserName { get; set; } = string.Empty;
