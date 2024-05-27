@@ -7,6 +7,7 @@ using MyCash.ApplicationService.Interfaces;
 using MyCash.ApplicationService.Services;
 using MyCash.Domain;
 using MyCash.Domain.Entity;
+using MyCash.Infrastructure.CachedRpositories;
 using MyCash.Infrastructure.Repositories;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
@@ -20,9 +21,11 @@ internal class Program
         // Add services to the container.
         builder.Services.AddScoped<IUserRepository, UserRepository>();
         builder.Services.AddScoped<IUserService, UserService>();
-        builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+        builder.Services.AddScoped<IAccountRepository, CachedAccountRepository>();
+        builder.Services.AddScoped<AccountRepository>();
         builder.Services.AddScoped<IAccountService, AccountService>();
-        builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
+        builder.Services.AddScoped<ITransactionRepository, CachedTransactionRepository>();
+        builder.Services.AddScoped<TransactionRepository>();
         builder.Services.AddScoped<ITransactionService, TransactionService>();
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
@@ -73,6 +76,8 @@ internal class Program
         builder.Services.AddScoped<IApplicationUserRepository, ApplicationUserRepository>();
         builder.Services.AddScoped<IApplicationUserService, ApplicationUserService>();
         //Ending...
+
+        builder.Services.AddMemoryCache();
 
         var app = builder.Build();
 

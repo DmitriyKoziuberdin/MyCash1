@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34902.65
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyCash", "MyCash\MyCash.csproj", "{123E2DAE-6291-4C12-8EAC-419C1271D142}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyCash", "MyCash\MyCash.csproj", "{123E2DAE-6291-4C12-8EAC-419C1271D142}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyCash.ApplicationService", "MyCash.ApplicationService\MyCash.ApplicationService.csproj", "{4281C962-D41C-41DD-8F37-254E3D7AE491}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyCash.ApplicationService", "MyCash.ApplicationService\MyCash.ApplicationService.csproj", "{4281C962-D41C-41DD-8F37-254E3D7AE491}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyCash.Domain", "MyCash.Domain\MyCash.Domain.csproj", "{CB31AE03-0E74-43E8-828E-6D1BAC7489C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyCash.Domain", "MyCash.Domain\MyCash.Domain.csproj", "{CB31AE03-0E74-43E8-828E-6D1BAC7489C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyCash.Infrastructure", "MyCash.Infrastructure\MyCash.Infrastructure.csproj", "{9CCB2027-C30C-4FB5-8685-B232B0BC158C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyCash.Infrastructure", "MyCash.Infrastructure\MyCash.Infrastructure.csproj", "{9CCB2027-C30C-4FB5-8685-B232B0BC158C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{6994A62C-10EC-448D-A07B-6B5CCB17CA0A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{9CCB2027-C30C-4FB5-8685-B232B0BC158C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9CCB2027-C30C-4FB5-8685-B232B0BC158C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9CCB2027-C30C-4FB5-8685-B232B0BC158C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6994A62C-10EC-448D-A07B-6B5CCB17CA0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6994A62C-10EC-448D-A07B-6B5CCB17CA0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6994A62C-10EC-448D-A07B-6B5CCB17CA0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6994A62C-10EC-448D-A07B-6B5CCB17CA0A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
