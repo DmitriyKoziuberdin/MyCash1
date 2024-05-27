@@ -32,11 +32,11 @@ namespace MyCash.Controllers
             return Ok(response);
         }
 
-        //[HttpGet]
-        //public async Task<List<ApplicationUser>> GetAllApllicationUser()
-        //{
-        //    return await _applicationUserService.GetAllUserAccount();
-        //}
+        [HttpGet]
+        public async Task<List<ApplicationUser>> GetAllApllicationUser()
+        {
+            return await _applicationUserService.GetAllUserAccount();
+        }
 
 
         //[HttpPut]
