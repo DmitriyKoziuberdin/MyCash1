@@ -1,4 +1,5 @@
-﻿using MyCash.ApplicationService.DTO.Request;
+﻿using Common.Exceptions;
+using MyCash.ApplicationService.DTO.Request;
 using MyCash.ApplicationService.DTO.Response;
 using MyCash.ApplicationService.Interfaces;
 using MyCash.Domain.Entity;
@@ -24,7 +25,7 @@ namespace MyCash.ApplicationService.Services
             var isExist = await _transactionRepository.AnyTransactionById(id);
             if (!isExist)
             {
-                throw new InvalidOperationException("Id not found");
+                throw new TransactionNotFoundException($"Transaction with this ID: {id} not found.");
             }
 
             var transactionId = await _transactionRepository.GetTransactionById(id);
@@ -39,6 +40,12 @@ namespace MyCash.ApplicationService.Services
 
         public async Task CreateTransaction(TransactionRequest transaction)
         {
+            var isExist = await _transactionRepository.AnyTransactionByCategory(transaction.CategoryTransaction);
+            if (isExist)
+            {
+                throw new TransactionDuplicateCategoryNameException($"Transaction with this CategoryName: {transaction.CategoryTransaction} already use.");
+            }
+
             await _transactionRepository.CreateTransaction(new Transaction
             {
                 Amount = transaction.Amount,
@@ -52,7 +59,7 @@ namespace MyCash.ApplicationService.Services
             var isExist = await _transactionRepository.AnyTransactionById(transactionId);
             if (!isExist)
             {
-                throw new InvalidOperationException("Id not found");
+                throw new TransactionNotFoundException($"Transaction with this ID: {transactionId} not found.");
             }
 
             var newTransaction = new Transaction
@@ -78,7 +85,7 @@ namespace MyCash.ApplicationService.Services
             var isExist = await _transactionRepository.AnyTransactionById(id);
             if (!isExist)
             {
-                throw new InvalidOperationException("Id not found");
+                throw new TransactionNotFoundException($"Transaction with this ID: {id} not found.");
             }
 
             await _transactionRepository.DeleteTransaction(id);

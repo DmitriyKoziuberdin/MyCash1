@@ -1,7 +1,7 @@
-﻿using MyCash.ApplicationService.DTO.Request;
+﻿using Common.Exceptions;
+using MyCash.ApplicationService.DTO.Request;
 using MyCash.ApplicationService.DTO.Response;
 using MyCash.ApplicationService.Interfaces;
-using MyCash.Domain;
 using MyCash.Domain.Entity;
 
 namespace MyCash.ApplicationService.Services
@@ -33,7 +33,7 @@ namespace MyCash.ApplicationService.Services
             var isExist = await _userRepository.AnyUserById(id);
             if (!isExist)
             {
-                throw new InvalidOperationException("Id not found");
+                throw new UserNotFoundException($"User with this ID: {id} not found.");
             }
 
             var user = await _userRepository.GetUserByIdIncludingAccountsAndTransactions(id);
@@ -63,7 +63,7 @@ namespace MyCash.ApplicationService.Services
             var isExist = await _userRepository.AnyUserWithEmail(user.UserEmail);
             if (isExist)
             {
-                throw new InvalidOperationException("This email already use");
+                throw new UserDuplicateException($"User with this Email: {user.UserEmail} already use.");
             }
 
             await _userRepository.CreateUser(new User
@@ -79,14 +79,14 @@ namespace MyCash.ApplicationService.Services
             var isExist = await _userRepository.AnyUserById(userId);
             if (!isExist)
             {
-                throw new InvalidOperationException("Id not found");
+                throw new UserNotFoundException($"User with this ID: {userId} not found.");
             }
 
-            var isExistEmail = await _userRepository.AnyUserWithEmail(user.UserEmail);
-            if (isExistEmail)
-            {
-                throw new InvalidOperationException("This email already use");
-            }
+            //var isExistEmail = await _userRepository.AnyUserWithEmail(user.UserEmail);
+            //if (isExistEmail)
+            //{
+            //    throw new InvalidOperationException("This email already use");
+            //}
 
             var newUser = new User
             {
@@ -111,7 +111,7 @@ namespace MyCash.ApplicationService.Services
             var isExist = await _userRepository.AnyUserById(id);
             if (!isExist)
             {
-                throw new InvalidOperationException("Id not found");
+                throw new UserNotFoundException($"User with this ID: {id} not found.");
             }
             await _userRepository.DeleteUser(id);
         }
@@ -121,13 +121,13 @@ namespace MyCash.ApplicationService.Services
             var isExistForUserId = await _userRepository.AnyUserById(userId);
             if (!isExistForUserId)
             {
-                throw new InvalidOperationException("UserId not found");
+                throw new UserNotFoundException($"User with this ID: {userId} not found.");
             }
 
             var isExistForAccountId = await _accountRepository.AnyAccountById(accountId);
             if (!isExistForAccountId)
             {
-                throw new InvalidOperationException("AccountId not found");
+                throw new AccountNotFoundException($"Account with this ID: {accountId} not found.");
             }
 
             await _userRepository.AddOrder(userId, accountId);

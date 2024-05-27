@@ -3,20 +3,18 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using MyCash.ApplicationService.DTO.Request;
 using MyCash.ApplicationService.DTO.Response;
-using MyCash.ApplicationService.Interfaces;
 using MyCash.Domain.Entity;
 using static MyCash.ApplicationService.DTO.Response.ServiceResponse;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
+using MyCash.ApplicationService.InterfacesLoginRegistration;
 
-namespace MyCash.Infrastructure.Repositories
+namespace MyCash.Infrastructure.RepositoryLoginRegistration
 {
     public class ApplicationUserRepository(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration config) : IApplicationUserRepository
     {
-        
-
         public async Task<GeneralResponse> CreateUserAccount(UserDTO userDTO)
         {
             if (userDTO is null) return new GeneralResponse(false, "Model is empty");

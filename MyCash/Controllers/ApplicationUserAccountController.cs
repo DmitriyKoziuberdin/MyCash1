@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MyCash.ApplicationService.DTO.Request;
-using MyCash.ApplicationService.Interfaces;
+using MyCash.ApplicationService.InterfacesLoginRegistration;
 using MyCash.Domain.Entity;
 using MyCash.Infrastructure.Repositories;
 using static MyCash.ApplicationService.DTO.Response.ServiceResponse;

@@ -1,4 +1,5 @@
-﻿using MyCash.ApplicationService.DTO.Request;
+﻿using Common.Exceptions;
+using MyCash.ApplicationService.DTO.Request;
 using MyCash.ApplicationService.DTO.Response;
 using MyCash.ApplicationService.Interfaces;
 using MyCash.Domain.Entity;
@@ -26,7 +27,7 @@ namespace MyCash.ApplicationService.Services
             var isExist = await _accountRepository.AnyAccountById(id);
             if (!isExist)
             {
-                throw new InvalidOperationException("Not found id");
+                throw new AccountNotFoundException($"Account with this ID: {id} not found.");
             }
 
             var accountId = await _accountRepository.GetAccountById(id);
@@ -61,7 +62,7 @@ namespace MyCash.ApplicationService.Services
             var isExist = await _accountRepository.AnyAccountById(accountId);
             if (!isExist)
             {
-                throw new InvalidOperationException("Not found id");
+                throw new AccountNotFoundException($"Account with this ID: {accountId} not found.");
             }
 
             var newAccount = new Account
@@ -85,7 +86,7 @@ namespace MyCash.ApplicationService.Services
             var isExist = await _accountRepository.AnyAccountById(id);
             if (!isExist)
             {
-                throw new InvalidOperationException("Not found id");
+                throw new AccountNotFoundException($"Account with this ID: {id} not found.");
             }
             await _accountRepository.DeleteAccount(id);
         }
@@ -95,44 +96,14 @@ namespace MyCash.ApplicationService.Services
             var isExistForAccountId = await _accountRepository.AnyAccountById(accountId);
             if (!isExistForAccountId)
             {
-                throw new InvalidOperationException("AccountId not found");
+                throw new AccountNotFoundException($"Account with this ID: {accountId} not found.");
             }
             var isExistForTransactionId = await _transactionRepository.AnyTransactionById(transactionId);
             if (!isExistForTransactionId)
             {
-                throw new InvalidOperationException("TransactionId not found");
+                throw new TransactionNotFoundException($"Transaction with this ID: {transactionId} not found.");
             }
             await _accountRepository.AddTransaction(accountId, transactionId);
         }
-
-
-        //public async Task<ClientDto> GetTotalOrderPrice(int id)
-        //{
-        //    var isExist = await _clientRepository.AnyClientById(id);
-        //    if (!isExist)
-        //    {
-        //        throw new InvalidOperationException();
-        //    }
-
-        //    var clientId = await _clientRepository.GetClientById(id);
-        //    var totalOrderPrice = await _clientRepository.CalculateTotalOrderPrice(id);
-
-        //    var clientResponse = new ClientDto
-        //    {
-        //        FirstName = clientId.FirstName,
-        //        LastName = clientId.LastName,
-        //        Email = clientId.Email,
-        //        PhoneNumber = clientId.PhoneNumber,
-        //        OrderHistories = clientId.OrderHistories.Select(oh => new OrderHistoryDto
-        //        {
-        //            Id = oh.OrderId,
-        //            OrderName = oh.Order.OrderName,
-        //            Price = oh.Order.Price
-        //        }).ToList(),
-        //        TotalPrice = totalOrderPrice
-        //    };
-
-        //    return clientResponse;
-        //}
     }
 }

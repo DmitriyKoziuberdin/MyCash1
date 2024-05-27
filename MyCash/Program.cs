@@ -1,14 +1,18 @@
+using Common.Middleware;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MyCash.ApplicationService.Interfaces;
+using MyCash.ApplicationService.InterfacesLoginRegistration;
 using MyCash.ApplicationService.Services;
+using MyCash.ApplicationService.ServicesLoginRegistration;
 using MyCash.Domain;
 using MyCash.Domain.Entity;
 using MyCash.Infrastructure.CachedRpositories;
 using MyCash.Infrastructure.Repositories;
+using MyCash.Infrastructure.RepositoryLoginRegistration;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 
@@ -19,7 +23,8 @@ internal class Program
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
-        builder.Services.AddScoped<IUserRepository, UserRepository>();
+        builder.Services.AddScoped<IUserRepository, CachedUserRepository>();
+        builder.Services.AddScoped<UserRepository>();
         builder.Services.AddScoped<IUserService, UserService>();
         builder.Services.AddScoped<IAccountRepository, CachedAccountRepository>();
         builder.Services.AddScoped<AccountRepository>();
@@ -73,7 +78,8 @@ internal class Program
 
             options.OperationFilter<SecurityRequirementsOperationFilter>();
         });
-        builder.Services.AddScoped<IApplicationUserRepository, ApplicationUserRepository>();
+        builder.Services.AddScoped<IApplicationUserRepository, CachedApplicationUserRepository>();
+        builder.Services.AddScoped<ApplicationUserRepository>();
         builder.Services.AddScoped<IApplicationUserService, ApplicationUserService>();
         //Ending...
 
@@ -102,6 +108,7 @@ internal class Program
             dbContext.Database.Migrate();
         }
 
+        app.UseMiddleware<ErrorHandlerMiddleware>();
         app.Run();
     }
 }

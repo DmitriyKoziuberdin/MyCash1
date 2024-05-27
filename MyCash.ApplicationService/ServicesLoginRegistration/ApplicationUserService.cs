@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using MyCash.ApplicationService.DTO.Request;
 using MyCash.ApplicationService.DTO.Response;
-using MyCash.ApplicationService.Interfaces;
+using MyCash.ApplicationService.InterfacesLoginRegistration;
 using MyCash.Domain.Entity;
 using static MyCash.ApplicationService.DTO.Response.ServiceResponse;
 
-namespace MyCash.ApplicationService.Services
+namespace MyCash.ApplicationService.ServicesLoginRegistration
 {
     public class ApplicationUserService : IApplicationUserService
     {
@@ -16,13 +16,13 @@ namespace MyCash.ApplicationService.Services
             _applicationUserRepository = applicationUserRepository;
         }
 
-        public async Task<ServiceResponse.GeneralResponse> Register(UserDTO userDTO)
+        public async Task<GeneralResponse> Register(UserDTO userDTO)
         {
             var response = await _applicationUserRepository.CreateUserAccount(userDTO);
             return response;
         }
 
-        public async Task<ServiceResponse.LoginResponse> Login(LoginDTO loginDTO)
+        public async Task<LoginResponse> Login(LoginDTO loginDTO)
         {
             var response = await _applicationUserRepository.LoginUserAccount(loginDTO);
             return response;
