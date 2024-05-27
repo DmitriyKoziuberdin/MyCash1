@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MyCash.ApplicationService.DTO.Request;
 using MyCash.ApplicationService.DTO.Response;
 using MyCash.ApplicationService.Interfaces;
@@ -17,18 +18,21 @@ namespace MyCash.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin, User")]
         public async Task<List<UserGetAllResponse>> GetAllUser()
         {
             return await _userService.GetAllUsers();
         }
 
         [HttpGet("{id:int}")]
+        [Authorize(Roles = "Admin, User")]
         public async Task<UserResponse> GetUserById([FromRoute] int id)
         {
             return await _userService.GetUserById(id);
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin, User")]
         public async Task<IActionResult> CreateUser([FromBody] UserRequest user)
         {
             await _userService.CreateUser(user);
@@ -36,12 +40,14 @@ namespace MyCash.Controllers
         }
 
         [HttpPut("{userId:int}/")]
+        [Authorize(Roles = "Admin, User")]
         public async Task<ActionResult<UserResponse>> UpdateUser([FromRoute] int userId, [FromBody] UserRequest user)
         {
             return new OkObjectResult(await _userService.UpdateUser(userId, user));
         }
 
         [HttpDelete("{userId:int}")]
+        [Authorize(Roles = "Admin, User")]
         public async Task<IActionResult> DeleteUser([FromRoute] int userId)
         {
             await _userService.DeleteUser(userId);
@@ -49,6 +55,7 @@ namespace MyCash.Controllers
         }
 
         [HttpPost("{userId:int}/account/{accountId:int}")]
+        [Authorize(Roles = "Admin, User")]
         public async Task<IActionResult> AddAccount([FromRoute] int userId, [FromRoute] int accountId)
         {
             await _userService.AddAccount(userId, accountId);

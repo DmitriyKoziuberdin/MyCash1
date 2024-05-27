@@ -17,6 +17,7 @@ namespace MyCash.Infrastructure.Repositories
 
         public async Task<List<UserGetAllResponse>> GetAllUsers()
         {
+
             return await _appDbContext.Users
                 .Select(user => new UserGetAllResponse
                 {
