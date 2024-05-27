@@ -1,6 +1,8 @@
-﻿namespace MyCash.Domain.Entity
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace MyCash.Domain.Entity
 {
-    public class User
+    public class User 
     {
         public int UserId { get; set; }
         public string UserName { get; set; } = string.Empty;

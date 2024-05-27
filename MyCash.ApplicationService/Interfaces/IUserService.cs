@@ -11,5 +11,7 @@ namespace MyCash.ApplicationService.Interfaces
         public Task<UserResponse> UpdateUser(int userId, UserRequest user);
         public Task DeleteUser(int id);
         public Task AddAccount(int userId, int accountId);
+
+
     }
 }
