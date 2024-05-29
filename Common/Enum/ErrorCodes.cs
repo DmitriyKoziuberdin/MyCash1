@@ -14,6 +14,10 @@
 
         User = 3_000,
         UserNotFound = 3_001,
-        UserDuplicate = 3_002
+        UserDuplicate = 3_002,
+
+        BankCard = 4_000,
+        BankCardNotFound = 4_001,
+        BankCardDuplicateNumber = 4_002
     }
 }

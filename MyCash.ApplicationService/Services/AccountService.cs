@@ -2,6 +2,7 @@
 using MyCash.ApplicationService.DTO.Request;
 using MyCash.ApplicationService.DTO.Response;
 using MyCash.ApplicationService.Interfaces;
+using MyCash.Domain;
 using MyCash.Domain.Entity;
 
 namespace MyCash.ApplicationService.Services
@@ -44,6 +45,15 @@ namespace MyCash.ApplicationService.Services
                     CategoryTransaction = at.Transaction.CategoryTransaction,
                     CategoryTypeTransaction = at.Transaction.CategoryTypeTransaction
                 }).ToList(),
+                AccountBankCard = accountId.BankCardAccounts.Select(bca => new AccountBankCardResponse
+                {
+                    CardId = bca.CardId,
+                    CardName = bca.BankCard.CardName,
+                    Cvv = bca.BankCard.Cvv,
+                    NumberCard = bca.BankCard.NumberCard
+                }).ToList(),
+                CreatedAt = accountId.CreatedAt,
+                UpdatedAt = accountId.UpdatedAt
             };
             return accountResponse;
         }
@@ -77,7 +87,9 @@ namespace MyCash.ApplicationService.Services
             return new AccountResponse
             {
                 AccountName = accountResponse.AccountName,
-                Balance = accountResponse.Balance
+                Balance = accountResponse.Balance,
+                CreatedAt = accountResponse.CreatedAt,
+                UpdatedAt = accountResponse.UpdatedAt
             };
         }
 
@@ -105,5 +117,7 @@ namespace MyCash.ApplicationService.Services
             }
             await _accountRepository.AddTransaction(accountId, transactionId);
         }
+
+        
     }
 }

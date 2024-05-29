@@ -9,6 +9,7 @@ namespace MyCash.Domain
         public DbSet<User> Users { get; set; }
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
+        public DbSet<BankCard> BankCards { get; set; }
 
         public AppDbContext(DbContextOptions options) : base(options) { }
 
@@ -30,6 +31,9 @@ namespace MyCash.Domain
             modelBuilder.Entity<Transaction>()
                 .HasKey(transaction => transaction.TransactionId);
 
+            modelBuilder.Entity<BankCard>()
+                .HasKey(bankCard => bankCard.CardId);
+
             modelBuilder.Entity<User>()
                .HasMany(userAccount => userAccount.UserAccounts)
                .WithOne(user => user.User)
@@ -45,10 +49,20 @@ namespace MyCash.Domain
                 .WithOne(account => account.Account)
                 .HasForeignKey(accountId => accountId.AccountId);
 
+            modelBuilder.Entity<Account>()
+                .HasMany(bankCardAccount => bankCardAccount.BankCardAccounts)
+                .WithOne(account => account.Account)
+                .HasForeignKey(accountId => accountId.AccountId);
+
             modelBuilder.Entity<Transaction>()
                 .HasMany(accountTransaction => accountTransaction.AccountTransactions)
                 .WithOne(transaction => transaction.Transaction)
                 .HasForeignKey(transactionId => transactionId.TransactionId);
+
+            modelBuilder.Entity<BankCard>()
+                .HasMany(bankCardAccount => bankCardAccount.BankCardAccounts)
+                .WithOne(bankCard => bankCard.BankCard)
+                .HasForeignKey(cardId => cardId.CardId);
 
             modelBuilder.Entity<UserAccount>()
                 .HasKey(x => new
@@ -63,6 +77,13 @@ namespace MyCash.Domain
                     x.AccountId,
                     x.TransactionId
                 });
+
+            modelBuilder.Entity<BankCardAccount>()
+               .HasKey(x => new
+               {
+                   x.AccountId,
+                   x.CardId
+               });
         }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())

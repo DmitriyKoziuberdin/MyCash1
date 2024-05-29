@@ -34,6 +34,8 @@ namespace MyCash.Infrastructure.Repositories
             var getAccount = await _appDbContext.Accounts
                 .Include(accountTransaction => accountTransaction.AccountTransactions)
                 .ThenInclude(transaction => transaction.Transaction)
+                .Include(bankCardAccount =>  bankCardAccount.BankCardAccounts)
+                .ThenInclude(bankCard => bankCard.BankCard)
                 .FirstAsync(accountId => accountId.AccountId == id);
             return getAccount;
         }
@@ -74,6 +76,8 @@ namespace MyCash.Infrastructure.Repositories
             });
             await _appDbContext.SaveChangesAsync();
         }
+
+        
 
 
         public async Task<decimal> CalculateAmountTransactionForAccount(int accountId)

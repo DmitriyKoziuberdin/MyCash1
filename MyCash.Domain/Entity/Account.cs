@@ -8,6 +8,7 @@
 
         public List<UserAccount>? UserAccounts { get; set; }
         public List<AccountTransaction>? AccountTransactions { get; set; }
+        public List<BankCardAccount>? BankCardAccounts { get; set; }
 
 
         //Один Счет может иметь много Транзакций.
