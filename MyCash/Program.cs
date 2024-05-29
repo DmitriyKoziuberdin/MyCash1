@@ -32,6 +32,9 @@ internal class Program
         builder.Services.AddScoped<ITransactionRepository, CachedTransactionRepository>();
         builder.Services.AddScoped<TransactionRepository>();
         builder.Services.AddScoped<ITransactionService, TransactionService>();
+        builder.Services.AddScoped<IBankCardRepository, CachedBankCardRepository>();
+        builder.Services.AddScoped<BankCardRepository>();
+        builder.Services.AddScoped<IBankCardService, BankCardService>();
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();

@@ -1,6 +1,6 @@
 ﻿using MyCash.ApplicationService.DTO.Request;
 using MyCash.ApplicationService.DTO.Response;
-using MyCash.Domain.Entity;
+
 
 namespace MyCash.ApplicationService.Interfaces
 {

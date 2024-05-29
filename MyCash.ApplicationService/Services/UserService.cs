@@ -52,7 +52,9 @@ namespace MyCash.ApplicationService.Services
                         AccountName = ua.Account.AccountName,
                         Balance = balance
                     };
-                }).ToList()
+                }).ToList(),
+                CreatedAt = user.CreatedAt,
+                UpdatedAt = user.UpdatedAt,
             };
 
             return userResponse;
@@ -103,6 +105,8 @@ namespace MyCash.ApplicationService.Services
                 UserEmail = newUser.UserEmail,
                 NumberPhone = userResponse.NumberPhone,
                 PasswordHash = userResponse.PasswordHash,
+                CreatedAt = userResponse.CreatedAt,
+                UpdatedAt = userResponse.UpdatedAt
             };
         }
 

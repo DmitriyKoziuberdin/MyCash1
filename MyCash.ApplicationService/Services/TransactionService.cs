@@ -33,7 +33,9 @@ namespace MyCash.ApplicationService.Services
             {
                 Amount = transactionId.Amount,
                 CategoryTransaction = transactionId.CategoryTransaction,
-                CategoryTypeTransaction = transactionId.CategoryTypeTransaction
+                CategoryTypeTransaction = transactionId.CategoryTypeTransaction,
+                CreatedAt = transactionId.CreatedAt,
+                UpdatedAt = transactionId.UpdatedAt
             };
             return transactionResponse;
         }
@@ -76,7 +78,9 @@ namespace MyCash.ApplicationService.Services
             {
                 Amount = transactionResponse.Amount,
                 CategoryTransaction = transactionResponse.CategoryTransaction,
-                CategoryTypeTransaction = transactionResponse.CategoryTypeTransaction
+                CategoryTypeTransaction = transactionResponse.CategoryTypeTransaction,
+                CreatedAt = transactionResponse.CreatedAt,
+                UpdatedAt = transactionResponse.UpdatedAt
             };
         }
 
